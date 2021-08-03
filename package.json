@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "ts-node index.ts",
+    "demo": "ts-node demo.ts",
+    "lint": "eslint .",
     "test": "jest --ci"
   },
   "author": "",
