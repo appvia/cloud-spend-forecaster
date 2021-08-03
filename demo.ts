@@ -75,7 +75,7 @@ console.log(output[100])
 fs.writeFileSync('./output.json', JSON.stringify(output))
 
 console.log(
-  `totalCost: ${output.reduce((accumulator, interval) => (accumulator = accumulator + interval.cost), 0)}`,
+  `totalCost: ${output.reduce((accumulator, interval) => (accumulator = accumulator + (interval.cost || 0)), 0)}`,
   `totalFailedRequests: ${output.reduce(
     (accumulator, interval) => (accumulator = accumulator + interval.failedRequests),
     0,
