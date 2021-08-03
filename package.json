@@ -2,14 +2,14 @@
   "name": "cloud-spend-forecaster",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "index.ts",
   "scripts": {
     "demo": "ts-node demo.ts",
     "lint": "eslint .",
     "test": "jest --ci"
   },
   "author": "Chris Nesbitt-Smith",
-  "license": "Apache-2.0 License",
+  "license": "Apache-2.0",
   "devDependencies": {
     "@types/jest": "^26.0.24",
     "@typescript-eslint/eslint-plugin": "^4.29.0",
