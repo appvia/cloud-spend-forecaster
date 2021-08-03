@@ -8,7 +8,7 @@
     "lint": "eslint .",
     "test": "jest --ci"
   },
-  "author": "",
+  "author": "Chris Nesbitt-Smith",
   "license": "MIT",
   "devDependencies": {
     "@types/jest": "^26.0.24",
