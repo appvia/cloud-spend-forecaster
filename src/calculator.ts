@@ -1,52 +1,61 @@
-import { components } from '../components'
-import { _ } from 'lodash'
-import { node } from '../play'
-import { failedRequestPenalty } from '../scenario'
+import { Component, ComponentOutput, ComputeNode, Interval } from '../module'
 
-export function putComponentsIntoIntervals (interval) {
-  return { ...interval, components }
+export function putComponentsIntoIntervals (components: Component[]) {
+  return (interval: Interval): Interval => {
+    return { ...interval, components }
+  }
 }
 
-export function putNodesIntoIntervals (interval) {
-  return { ...interval, nodes: node }
+export function putNodesIntoIntervals (node: ComputeNode) {
+  return (interval: Interval): Interval => {
+    return { ...interval, nodes: node }
+  }
 }
 
-export function calculateResourceNeededForRequestsInterval (interval) {
-  const intervalComponents = interval.components.map(component => {
-    return {
-      ...component,
-      needCpuForRequests: interval.requests * component.requestToCpu,
-      needMemoryForRequests: interval.requests * component.requestToMemory
+export function calculateResourceNeededForRequestsInterval (
+  interval: Interval
+): Interval {
+  const intervalComponents = interval.components.map(
+    (component: ComponentOutput): ComponentOutput => {
+      return {
+        ...component,
+        needCpuForRequests: interval.requests * component.requestToCpu,
+        needMemoryForRequests: interval.requests * component.requestToMemory
+      }
     }
-  })
+  )
   return {
     ...interval,
     components: intervalComponents
   }
 }
 
-export function calculateReplicasNeededForInterval (interval) {
-  const intervalComponents = interval.components.map(component => {
-    const needCpuReplica = Math.ceil(
-      component.needCpuForRequests /
-        (component.limitCpu - component.baselineCpu)
-    )
-    const needMemoryReplica = Math.ceil(
-      component.needMemoryForRequests /
-        (component.limitMemory - component.baselineMemory)
-    )
-
-    return {
-      ...component,
-      needCpuReplica,
-      needMemoryReplica,
-      needReplica: Math.max(
-        needMemoryReplica,
-        needCpuReplica,
-        component.minReplica
+export function calculateReplicasNeededForInterval (
+  interval: Interval
+): Interval {
+  const intervalComponents = interval.components.map(
+    (component: ComponentOutput): ComponentOutput => {
+      const needCpuReplica = Math.ceil(
+        component.needCpuForRequests /
+          (component.limitCpu - component.baselineCpu)
       )
+      const needMemoryReplica = Math.ceil(
+        component.needMemoryForRequests /
+          (component.limitMemory - component.baselineMemory)
+      )
+
+      return {
+        ...component,
+        needCpuReplica,
+        needMemoryReplica,
+        needReplica: Math.max(
+          needMemoryReplica,
+          needCpuReplica,
+          component.minReplica
+        )
+      }
     }
-  })
+  )
   return {
     ...interval,
     components: intervalComponents,
@@ -57,18 +66,22 @@ export function calculateReplicasNeededForInterval (interval) {
   }
 }
 
-export function calculateResourceNeededForInterval (interval) {
-  const intervalComponents = interval.components.map(component => {
-    return {
-      ...component,
-      needCpu:
-        component.needReplica * component.baselineCpu +
-        component.needCpuForRequests,
-      needMemory:
-        component.needReplica * component.baselineMemory +
-        component.needMemoryForRequests
+export function calculateResourceNeededForInterval (
+  interval: Interval
+): Interval {
+  const intervalComponents = interval.components.map(
+    (component: ComponentOutput): ComponentOutput => {
+      return {
+        ...component,
+        needCpu:
+          component.needReplica * component.baselineCpu +
+          component.needCpuForRequests,
+        needMemory:
+          component.needReplica * component.baselineMemory +
+          component.needMemoryForRequests
+      }
     }
-  })
+  )
   return {
     ...interval,
     components: intervalComponents,
@@ -83,7 +96,7 @@ export function calculateResourceNeededForInterval (interval) {
   }
 }
 
-export function calculateNodesNeededForInterval (interval) {
+export function calculateNodesNeededForInterval (interval: Interval): Interval {
   const needNodesByCpu = Math.ceil(
     interval.needCpu / interval.nodes.availableCpu
   )
@@ -95,49 +108,63 @@ export function calculateNodesNeededForInterval (interval) {
   return { ...interval, needNodesByCpu, needNodesByMemory, needNodesByPods }
 }
 
-export function calcCapacity (replica, limit, to_request, baseline) {
+export function calcCapacity (
+  replica: number,
+  limit: number,
+  to_request: number,
+  baseline: number
+): number {
   return Math.floor(replica * (limit * to_request - baseline))
 }
 
-export function withinRange (min, max, number) {
+export function withinRange (min: number, max: number, number: number): number {
   return Math.ceil(Math.max(min, Math.min(max, number)))
 }
 
-export function calculateDesiredResourceForInterval (interval) {
-  const intervalComponents = interval.components.map((component, cid) => {
-    const desiredReplica = withinRange(
-      component.minReplica,
-      component.maxReplica,
-      (100 / component.scalingThresholdCpu) * component.needCpuReplica
-    )
-    const desiredCpu = desiredReplica * component.limitCpu
-    const desiredMemory = desiredReplica * component.limitMemory
-    return {
-      ...component,
-      desiredReplica,
-      desiredCpu,
-      desiredMemory
+export function calculateDesiredResourceForInterval (
+  interval: Interval
+): Interval {
+  const intervalComponents = interval.components.map(
+    (component: ComponentOutput, cid: number): ComponentOutput => {
+      const desiredReplica = withinRange(
+        component.minReplica,
+        component.maxReplica,
+        (100 / component.scalingThresholdCpu) * component.needCpuReplica
+      )
+      const desiredCpu = desiredReplica * component.limitCpu
+      const desiredMemory = desiredReplica * component.limitMemory
+      return {
+        ...component,
+        desiredReplica,
+        desiredCpu,
+        desiredMemory
+      }
     }
-  })
+  )
   return {
     ...interval,
     components: intervalComponents,
     desiredPods: intervalComponents.reduce(
-      (accumulator, component) => accumulator + component.desiredReplica,
+      (accumulator: number, component: ComponentOutput): number =>
+        accumulator + component.desiredReplica,
       0
     ),
     desiredCpu: intervalComponents.reduce(
-      (accumulator, component) => accumulator + component.desiredCpu,
+      (accumulator: number, component: ComponentOutput): number =>
+        accumulator + component.desiredCpu,
       0
     ),
     desiredMemory: intervalComponents.reduce(
-      (accumulator, component) => accumulator + component.desiredMemory,
+      (accumulator: number, component: ComponentOutput): number =>
+        accumulator + component.desiredMemory,
       0
     )
   }
 }
 
-export function calculateNodesDesiredForInterval (interval) {
+export function calculateNodesDesiredForInterval (
+  interval: Interval
+): Interval {
   const desiredNodesByCpu = Math.ceil(
     interval.desiredCpu / interval.nodes.availableCpu
   )
@@ -154,14 +181,18 @@ export function calculateNodesDesiredForInterval (interval) {
     desiredNodesByMemory,
     desiredNodesByPods,
     desiredNodes: withinRange(
-      node.minNodes,
-      node.maxNodes,
+      interval.nodes.minNodes,
+      interval.nodes.maxNodes,
       Math.max(desiredNodesByCpu, desiredNodesByMemory, desiredNodesByPods)
     )
   }
 }
 
-export function calculateReadyNodes (interval, index, intervals) {
+export function calculateReadyNodes (
+  interval: Interval,
+  index: number,
+  intervals: Interval[]
+): Interval {
   return {
     ...interval,
     readyNodes:
@@ -171,37 +202,44 @@ export function calculateReadyNodes (interval, index, intervals) {
   }
 }
 
-export function calculatePendingPods (interval, index, intervals) {
-  const intervalComponents = interval.components.map((component, cid) => {
-    let pendingReplica = component.minReplica
+export function calculatePendingPods (
+  interval: Interval,
+  index: number,
+  intervals: Interval[]
+): Interval {
+  const intervalComponents = interval.components.map(
+    (component: ComponentOutput, cid: number) => {
+      let pendingReplica = component.minReplica
 
-    if (index + 1 - component.scalingIntervals > 0) {
-      pendingReplica =
-        intervals[index + 1 - component.scalingIntervals].components[cid]
-          .desiredReplica
-    }
+      if (index + 1 - component.scalingIntervals > 0) {
+        pendingReplica =
+          intervals[index + 1 - component.scalingIntervals].components[cid]
+            .desiredReplica
+      }
 
-    return {
-      ...component,
-      pendingReplica
+      return {
+        ...component,
+        pendingReplica
+      }
     }
-  })
+  )
 
   return { ...interval, components: intervalComponents }
 }
 
-export function calculateReadyPods (interval) {
-  const intervalComponents = interval.components.map((component, cid) => {
-    let readyReplica = component.pendingReplica
-    return {
-      ...component,
-      readyReplica
+export function calculateReadyPods (interval: Interval): Interval {
+  const intervalComponents = interval.components.map(
+    (component: ComponentOutput, cid: number): ComponentOutput => {
+      let readyReplica = component.pendingReplica
+      return {
+        ...component,
+        readyReplica
+      }
     }
-  })
+  )
 
   let cid = 0
   do {
-    // let cid = _.random(0, intervalComponents.length - 1)
     intervalComponents[cid].readyReplica = Math.max(
       intervalComponents[cid].readyReplica - 1,
       intervalComponents[cid].minReplica
@@ -219,19 +257,20 @@ export function calculateReadyPods (interval) {
 }
 
 export function calculateIfOverSubscribed (
-  components,
-  nodes,
-  readyNodes
+  components: ComponentOutput[],
+  nodes: ComputeNode,
+  readyNodes: number
 ): boolean {
   const pendingPodCount = components.reduce(
-    (accumulator, component) => accumulator + component.readyReplica,
+    (accumulator: number, component: ComponentOutput): number =>
+      accumulator + component.readyReplica,
     0
   )
   if (pendingPodCount > readyNodes * nodes.maxPods) {
     return true
   }
   const pendingCpu = components.reduce(
-    (accumulator, component) =>
+    (accumulator: number, component: ComponentOutput): number =>
       accumulator + component.readyReplica * component.limitCpu,
     0
   )
@@ -241,8 +280,8 @@ export function calculateIfOverSubscribed (
   }
 
   const pendingMemory = components.reduce(
-    (accumulator, component) =>
-      accumulator + component.readyReplica * components.limitMemory,
+    (accumulator: number, component: ComponentOutput): number =>
+      accumulator + component.readyReplica * component.limitMemory,
     0
   )
   if (pendingCpu > readyNodes * nodes.availableMemory) {
@@ -256,10 +295,12 @@ export function calculateCosts (interval) {
   return { ...interval, cost: interval.desiredNodes * interval.nodes.cost }
 }
 
-export function calculatePenalties (interval) {
-  return {
-    ...interval,
-    failedRequestPenalty: interval.failedRequests * failedRequestPenalty
+export function calculatePenalties (failedRequestPenalty) {
+  return interval => {
+    return {
+      ...interval,
+      failedRequestPenalty: interval.failedRequests * failedRequestPenalty
+    }
   }
 }
 
@@ -274,7 +315,9 @@ export function calculateReadyRequestCapacity (interval) {
         (component.limitMemory - component.baselineMemory)) /
       component.requestToMemory
 
-    const readyRequestCapacity = Math.min(cpuCapacity, memoryCapacity)
+    const readyRequestCapacity = Math.floor(
+      Math.min(cpuCapacity, memoryCapacity)
+    )
     return { ...component, readyRequestCapacity }
   })
   return {
@@ -290,9 +333,8 @@ export function calculateFailedRequests (interval) {
   const intervalComponents = interval.components.map(component => {
     return {
       ...component,
-      failedRequests: Math.max(
-        0,
-        interval.requests - component.readyRequestCapacity
+      failedRequests: Math.ceil(
+        Math.max(0, interval.requests - component.readyRequestCapacity)
       )
     }
   })

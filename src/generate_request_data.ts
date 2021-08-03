@@ -1,15 +1,6 @@
-export interface Puller {
-  time: number
-  requests: number
-  desc?: String
-}
+import { Puller, Interval } from '../module'
 
-export interface RequestData {
-  time: number
-  requests: number
-}
-
-export function generate (pullers: Puller[], units: number): RequestData[] {
+export function generate (pullers: Puller[], units: number): Interval[] {
   const data = []
   pullers.forEach((from: Puller, i: number) => {
     if (i + 1 == pullers.length) return

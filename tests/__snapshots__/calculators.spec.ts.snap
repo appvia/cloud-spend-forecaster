@@ -4,6 +4,8 @@ exports[`calculator calculateDesiredResourceForInterval 1`] = `
 Object {
   "components": Array [
     Object {
+      "baselineCpu": 0,
+      "baselineMemory": 0,
       "desiredCpu": 1500,
       "desiredMemory": 3000,
       "desiredReplica": 15,
@@ -11,13 +13,19 @@ Object {
       "limitMemory": 200,
       "maxReplica": 200,
       "minReplica": 2,
+      "name": "foo",
       "needCpuReplica": 10,
+      "requestToCpu": 0,
+      "requestToMemory": 0,
+      "scalingIntervals": 0,
       "scalingThresholdCpu": 70,
     },
   ],
   "desiredCpu": 1500,
   "desiredMemory": 3000,
   "desiredPods": 15,
+  "requests": 1,
+  "time": 1,
 }
 `;
 
@@ -33,8 +41,14 @@ Object {
   "nodes": Object {
     "availableCpu": 100,
     "availableMemory": 200,
+    "cost": 0,
+    "maxNodes": 1000,
     "maxPods": 100,
+    "minNodes": 30,
+    "scalingIntervals": 0,
   },
+  "requests": 1,
+  "time": 1,
 }
 `;
 
@@ -51,6 +65,8 @@ Object {
     "availableMemory": 200,
     "maxPods": 100,
   },
+  "requests": 1,
+  "time": 1,
 }
 `;
 
@@ -65,6 +81,8 @@ Array [
         "scalingIntervals": 2,
       },
     ],
+    "requests": 1,
+    "time": 1,
   },
   Object {
     "components": Array [
@@ -75,6 +93,8 @@ Array [
         "scalingIntervals": 2,
       },
     ],
+    "requests": 1,
+    "time": 1,
   },
   Object {
     "components": Array [
@@ -85,6 +105,8 @@ Array [
         "scalingIntervals": 2,
       },
     ],
+    "requests": 1,
+    "time": 1,
   },
   Object {
     "components": Array [
@@ -95,6 +117,8 @@ Array [
         "scalingIntervals": 2,
       },
     ],
+    "requests": 1,
+    "time": 1,
   },
   Object {
     "components": Array [
@@ -105,6 +129,8 @@ Array [
         "scalingIntervals": 2,
       },
     ],
+    "requests": 1,
+    "time": 1,
   },
   Object {
     "components": Array [
@@ -115,6 +141,8 @@ Array [
         "scalingIntervals": 2,
       },
     ],
+    "requests": 1,
+    "time": 1,
   },
   Object {
     "components": Array [
@@ -125,6 +153,8 @@ Array [
         "scalingIntervals": 2,
       },
     ],
+    "requests": 1,
+    "time": 1,
   },
   Object {
     "components": Array [
@@ -135,6 +165,8 @@ Array [
         "scalingIntervals": 2,
       },
     ],
+    "requests": 1,
+    "time": 1,
   },
   Object {
     "components": Array [
@@ -145,6 +177,8 @@ Array [
         "scalingIntervals": 2,
       },
     ],
+    "requests": 1,
+    "time": 1,
   },
 ]
 `;
@@ -157,6 +191,8 @@ Array [
       "scalingIntervals": 3,
     },
     "readyNodes": undefined,
+    "requests": 1,
+    "time": 1,
   },
   Object {
     "desiredNodes": 10,
@@ -164,6 +200,8 @@ Array [
       "scalingIntervals": 3,
     },
     "readyNodes": undefined,
+    "requests": 1,
+    "time": 1,
   },
   Object {
     "desiredNodes": 10,
@@ -171,6 +209,8 @@ Array [
       "scalingIntervals": 3,
     },
     "readyNodes": undefined,
+    "requests": 1,
+    "time": 1,
   },
   Object {
     "desiredNodes": 5,
@@ -178,6 +218,8 @@ Array [
       "scalingIntervals": 3,
     },
     "readyNodes": undefined,
+    "requests": 1,
+    "time": 1,
   },
   Object {
     "desiredNodes": 10,
@@ -185,6 +227,8 @@ Array [
       "scalingIntervals": 3,
     },
     "readyNodes": 10,
+    "requests": 1,
+    "time": 1,
   },
   Object {
     "desiredNodes": 10,
@@ -192,6 +236,8 @@ Array [
       "scalingIntervals": 3,
     },
     "readyNodes": 5,
+    "requests": 1,
+    "time": 1,
   },
   Object {
     "desiredNodes": 10,
@@ -199,6 +245,8 @@ Array [
       "scalingIntervals": 3,
     },
     "readyNodes": 10,
+    "requests": 1,
+    "time": 1,
   },
 ]
 `;
@@ -211,16 +259,23 @@ Object {
       "baselineMemory": 500,
       "limitCpu": 40,
       "limitMemory": 200,
+      "maxReplica": 0,
       "minReplica": 1,
+      "name": "foo",
       "needCpuForRequests": 30,
       "needCpuReplica": 1,
       "needMemoryForRequests": 20,
       "needMemoryReplica": -0,
       "needReplica": 1,
+      "requestToCpu": 0,
+      "requestToMemory": 0,
+      "scalingIntervals": 0,
+      "scalingThresholdCpu": 0,
     },
   ],
   "needPods": 1,
-  "requests": 100,
+  "requests": 1,
+  "time": 1,
 }
 `;
 
@@ -230,15 +285,26 @@ Object {
     Object {
       "baselineCpu": 2,
       "baselineMemory": 10,
+      "limitCpu": 0,
+      "limitMemory": 0,
+      "maxReplica": 0,
+      "minReplica": 0,
+      "name": "foo",
       "needCpu": 204,
       "needCpuForRequests": 200,
       "needMemory": 35,
       "needMemoryForRequests": 15,
       "needReplica": 2,
+      "requestToCpu": 0,
+      "requestToMemory": 0,
+      "scalingIntervals": 0,
+      "scalingThresholdCpu": 0,
     },
   ],
   "needCpu": 204,
   "needMemory": 35,
+  "requests": 1,
+  "time": 1,
 }
 `;
 
@@ -246,12 +312,22 @@ exports[`calculator calculateResourceNeededForRequestsInterval 1`] = `
 Object {
   "components": Array [
     Object {
+      "baselineCpu": 0,
+      "baselineMemory": 0,
+      "limitCpu": 0,
+      "limitMemory": 0,
+      "maxReplica": 0,
+      "minReplica": 0,
+      "name": "foo",
       "needCpuForRequests": 300,
       "needMemoryForRequests": 400,
       "requestToCpu": 3,
       "requestToMemory": 4,
+      "scalingIntervals": 0,
+      "scalingThresholdCpu": 0,
     },
   ],
   "requests": 100,
+  "time": 1,
 }
 `;
