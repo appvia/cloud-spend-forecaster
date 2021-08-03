@@ -102,7 +102,7 @@ const node = {
   cost: 1.536 / 60,
   scalingIntervals: 5,
   maxNodes: 1000,
-  minNodes: 30
+  minNodes: 30,
 }
 ```
 
@@ -122,8 +122,45 @@ const output = calculate(pullers, units, components, node, failedRequestPenalty)
 
 ### Example output
 
+| Name                               | Definition                                                                 |
+| ---------------------------------- | -------------------------------------------------------------------------- |
+| time                               | Timestamp                                                                  |
+| requests                           | Requests/second received in this interval                                  |
+| components[].needCpuForRequests    | CPU required to handle the requests (without replica\*baseline applied)    |
+| components[].needMemoryForRequests | Memory required to handle the requests (without replica\*baseline applied) |
+| components[].needCpuReplica        | Needed replica based on CPU need                                           |
+| components[].needMemoryReplica     | Needed Replica based on memory need                                        |
+| components[].needReplica           | Needed Replica                                                             |
+| components[].needCpu               | Needed CPU                                                                 |
+| components[].needMemory            | Needed Memory                                                              |
+| components[].desiredReplica        | Desired Replica                                                            |
+| components[].desiredCpu            | Desired Cpu                                                                |
+| components[].desiredMemory         | Desired Memory                                                             |
+| components[].pendingReplica        | Number of replicas that are pending                                        |
+| components[].readyReplica          | Number replicas that are ready                                             |
+| components[].readyRequestCapacity  | Capacity for requests/second                                               |
+| components[].failedRequests        | Failed requests                                                            |
+| needPods                           | Total number of Pods needed                                                |
+| needCpu                            | Total CPU needed                                                           |
+| needMemory                         | Total memory needed                                                        |
+| desiredPods                        | Total desired pods                                                         |
+| desiredCpu                         | Total desired cpu in mb                                                    |
+| desiredMemory                      | Total desired memory in mb                                                 |
+| needNodesByCpu                     | Number of nodes by CPU that are needed                                     |
+| needNodesByMemory                  | Number of nodes by memory that are needed                                  |
+| needNodesByPods                    | Number of nodes by pods that are needed                                    |
+| desiredNodesByCpu                  | Number of nodes by cpu need that are desired                               |
+| desiredNodesByMemory               | Number of nodes by memory need that are desired                            |
+| desiredNodesByPods                 | Number of nodes by pods that are desired                                   |
+| desiredNodes                       | Number of nodes that are desired                                           |
+| readyNodes                         | Number of nodes that are ready                                             |
+| readyRequestCapacity               | Capacity for requests/second                                               |
+| failedRequests                     | Failed requests/second in this interval                                    |
+| cost                               | Cost for this interval                                                     |
+| failedRequestPenalty               | Total penalty for this interval                                            |
+
 ```js
-;[
+[
   {
     time: 1609465200000,
     requests: 473,
