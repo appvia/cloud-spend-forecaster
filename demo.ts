@@ -1,5 +1,5 @@
 import { calculate } from './'
-const fs = require('fs')
+import * as fs from 'fs'
 
 export const units = 1 * 60 * 1000 // 1 minute in milliseconds
 
@@ -11,7 +11,7 @@ export const pullers = [
   { time: Date.parse('05 Jan 2021 00:00:00 GMT'), requests: 150 },
   { time: Date.parse('05 Jan 2021 03:00:00 GMT'), requests: 25000 },
   { time: Date.parse('06 Jan 2021 00:00:00 GMT'), requests: 1500 },
-  { time: Date.parse('06 Jan 2021 23:59:00 GMT'), requests: 500 }
+  { time: Date.parse('06 Jan 2021 23:59:00 GMT'), requests: 500 },
 ]
 export const failedRequestPenalty = 0.02
 
@@ -23,7 +23,7 @@ export const node = {
   cost: 1.536 / 60,
   scalingIntervals: 5,
   maxNodes: 1000,
-  minNodes: 30
+  minNodes: 30,
 }
 
 const components = [
@@ -38,7 +38,7 @@ const components = [
     minReplica: 5,
     maxReplica: 1000,
     scalingThresholdCpu: 75,
-    scalingIntervals: 2
+    scalingIntervals: 2,
   },
   {
     name: 'frontend',
@@ -51,7 +51,7 @@ const components = [
     minReplica: 50,
     maxReplica: 2000,
     scalingThresholdCpu: 99,
-    scalingIntervals: 2
+    scalingIntervals: 2,
   },
   {
     name: 'database',
@@ -64,8 +64,8 @@ const components = [
     minReplica: 8,
     maxReplica: 50,
     scalingThresholdCpu: 25,
-    scalingIntervals: 120
-  }
+    scalingIntervals: 120,
+  },
 ]
 
 const output = calculate(pullers, units, components, node, failedRequestPenalty)
@@ -75,18 +75,13 @@ console.log(output[100])
 fs.writeFileSync('./output.json', JSON.stringify(output))
 
 console.log(
-  `totalCost: ${output.reduce(
-    (accumulator, interval) => (accumulator = accumulator + interval.cost),
-    0
-  )}`,
+  `totalCost: ${output.reduce((accumulator, interval) => (accumulator = accumulator + interval.cost), 0)}`,
   `totalFailedRequests: ${output.reduce(
-    (accumulator, interval) =>
-      (accumulator = accumulator + interval.failedRequests),
-    0
+    (accumulator, interval) => (accumulator = accumulator + interval.failedRequests),
+    0,
   )}`,
   `totalFailedRequestPenalties: ${output.reduce(
-    (accumulator, interval) =>
-      (accumulator = accumulator + interval.failedRequestPenalty),
-    0
-  )}`
+    (accumulator, interval) => (accumulator = accumulator + interval.failedRequestPenalty),
+    0,
+  )}`,
 )

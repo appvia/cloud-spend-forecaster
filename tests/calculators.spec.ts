@@ -14,7 +14,7 @@ const makeComponent = (myComponent: Object): ComponentOutput => {
     maxReplica: 0,
     scalingThresholdCpu: 0,
     scalingIntervals: 0,
-    ...myComponent
+    ...myComponent,
   }
 }
 
@@ -27,7 +27,7 @@ const makeNode = (myNode: Object): ComputeNode => {
     scalingIntervals: 0,
     maxNodes: 0,
     minNodes: 0,
-    ...myNode
+    ...myNode,
   }
 }
 
@@ -41,9 +41,9 @@ describe('calculator', () => {
       mod.calculateResourceNeededForRequestsInterval(
         makeInterval({
           requests: 100,
-          components: [makeComponent({ requestToCpu: 3, requestToMemory: 4 })]
-        })
-      )
+          components: [makeComponent({ requestToCpu: 3, requestToMemory: 4 })],
+        }),
+      ),
     ).toMatchSnapshot())
 
   it('calculateReplicasNeededForInterval', () =>
@@ -58,11 +58,11 @@ describe('calculator', () => {
               minReplica: 1,
               needMemoryForRequests: 20,
               limitMemory: 200,
-              baselineMemory: 500
-            })
-          ]
-        })
-      )
+              baselineMemory: 500,
+            }),
+          ],
+        }),
+      ),
     ).toMatchSnapshot())
 
   it('calculateResourceNeededForInterval', () =>
@@ -75,11 +75,11 @@ describe('calculator', () => {
               baselineCpu: 2,
               needCpuForRequests: 200,
               baselineMemory: 10,
-              needMemoryForRequests: 15
-            })
-          ]
-        })
-      )
+              needMemoryForRequests: 15,
+            }),
+          ],
+        }),
+      ),
     ).toMatchSnapshot())
 
   it('calculateNodesNeededForInterval', () =>
@@ -92,10 +92,10 @@ describe('calculator', () => {
           nodes: {
             availableCpu: 100,
             availableMemory: 200,
-            maxPods: 100
-          }
-        })
-      )
+            maxPods: 100,
+          },
+        }),
+      ),
     ).toMatchSnapshot())
 
   it('calculateNodesDesiredForInterval', () =>
@@ -110,10 +110,10 @@ describe('calculator', () => {
             availableMemory: 200,
             maxPods: 100,
             minNodes: 30,
-            maxNodes: 1000
-          })
-        })
-      )
+            maxNodes: 1000,
+          }),
+        }),
+      ),
     ).toMatchSnapshot())
 
   it('calculateDesiredResourceForInterval', () =>
@@ -127,11 +127,11 @@ describe('calculator', () => {
               scalingThresholdCpu: 70,
               needCpuReplica: 10,
               limitCpu: 100,
-              limitMemory: 200
-            })
-          ]
-        })
-      )
+              limitMemory: 200,
+            }),
+          ],
+        }),
+      ),
     ).toMatchSnapshot())
 
   it('calculateReadyNodes', () => {
@@ -142,46 +142,42 @@ describe('calculator', () => {
       { desiredNodes: 5, nodes: { scalingIntervals: 3 } },
       { desiredNodes: 10, nodes: { scalingIntervals: 3 } },
       { desiredNodes: 10, nodes: { scalingIntervals: 3 } },
-      { desiredNodes: 10, nodes: { scalingIntervals: 3 } }
+      { desiredNodes: 10, nodes: { scalingIntervals: 3 } },
     ]
-    return expect(
-      arr.map(makeInterval).map(mod.calculateReadyNodes)
-    ).toMatchSnapshot()
+    return expect(arr.map(makeInterval).map(mod.calculateReadyNodes)).toMatchSnapshot()
   })
 
   it('calculatePendingPods', () => {
     const arr = [
       {
-        components: [{ scalingIntervals: 2, desiredReplica: 3, minReplica: 1 }]
+        components: [{ scalingIntervals: 2, desiredReplica: 3, minReplica: 1 }],
       },
       {
-        components: [{ scalingIntervals: 2, desiredReplica: 3, minReplica: 1 }]
+        components: [{ scalingIntervals: 2, desiredReplica: 3, minReplica: 1 }],
       },
       {
-        components: [{ scalingIntervals: 2, desiredReplica: 3, minReplica: 1 }]
+        components: [{ scalingIntervals: 2, desiredReplica: 3, minReplica: 1 }],
       },
       {
-        components: [{ scalingIntervals: 2, desiredReplica: 3, minReplica: 1 }]
+        components: [{ scalingIntervals: 2, desiredReplica: 3, minReplica: 1 }],
       },
       {
-        components: [{ scalingIntervals: 2, desiredReplica: 3, minReplica: 1 }]
+        components: [{ scalingIntervals: 2, desiredReplica: 3, minReplica: 1 }],
       },
       {
-        components: [{ scalingIntervals: 2, desiredReplica: 10, minReplica: 1 }]
+        components: [{ scalingIntervals: 2, desiredReplica: 10, minReplica: 1 }],
       },
       {
-        components: [{ scalingIntervals: 2, desiredReplica: 4, minReplica: 1 }]
+        components: [{ scalingIntervals: 2, desiredReplica: 4, minReplica: 1 }],
       },
       {
-        components: [{ scalingIntervals: 2, desiredReplica: 3, minReplica: 1 }]
+        components: [{ scalingIntervals: 2, desiredReplica: 3, minReplica: 1 }],
       },
       {
-        components: [{ scalingIntervals: 2, desiredReplica: 3, minReplica: 1 }]
-      }
+        components: [{ scalingIntervals: 2, desiredReplica: 3, minReplica: 1 }],
+      },
     ]
-    return expect(
-      arr.map(makeInterval).map(mod.calculatePendingPods)
-    ).toMatchSnapshot()
+    return expect(arr.map(makeInterval).map(mod.calculatePendingPods)).toMatchSnapshot()
   })
 
   test.each([
@@ -190,39 +186,31 @@ describe('calculator', () => {
       nodes: { maxPods: 10 },
       readyNodes: 2,
       testing: 'pods',
-      expected: true
+      expected: true,
     },
     {
       components: [{ readyReplica: 20, limitCpu: 1000, limitMemory: 1 }],
       nodes: { maxPods: 100, availableCpu: 1 },
       readyNodes: 1,
       testing: 'cpu',
-      expected: true
+      expected: true,
     },
     {
       components: [{ readyReplica: 20, limitCpu: 1, limitMemory: 100 }],
       nodes: { maxPods: 100, availableCpu: 1000, availableMemory: 1 },
       readyNodes: 1,
       testing: 'memory',
-      expected: true
+      expected: true,
     },
     {
       components: [{ readyReplica: 2, limitCpu: 1, limitMemory: 1 }],
       nodes: { maxPods: 100, availableCpu: 1000, availableMemory: 100 },
       readyNodes: 1,
       testing: 'ok',
-      expected: false
-    }
-  ])(
-    'calculateIfOverSubscribed, $testing',
-    ({ components, nodes, readyNodes, testing, expected }) =>
-      expect(
-        mod.calculateIfOverSubscribed(
-          components.map(makeComponent),
-          makeNode(nodes),
-          readyNodes
-        )
-      ).toBe(expected)
+      expected: false,
+    },
+  ])('calculateIfOverSubscribed, $testing', ({ components, nodes, readyNodes, testing, expected }) =>
+    expect(mod.calculateIfOverSubscribed(components.map(makeComponent), makeNode(nodes), readyNodes)).toBe(expected),
   )
 
   it.todo('calculatePenalties')

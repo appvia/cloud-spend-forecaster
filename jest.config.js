@@ -20,6 +20,6 @@ module.exports = {
     '!coverage/**',
     '!jest.config.js',
     '!wallaby.js',
-    '!grafanadata/**'
+    '!grafanadata/**',
   ],
 }

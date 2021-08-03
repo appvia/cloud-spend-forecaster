@@ -2,12 +2,12 @@ import { generate } from './src/generate_request_data'
 import * as calc from './src/calculator'
 import { Component, ComputeNode, Puller } from './module'
 
-export function calculate (
+export function calculate(
   pullers: Puller[],
   units: number,
   components: Component[],
   node: ComputeNode,
-  failedRequestPenalty: number
+  failedRequestPenalty: number,
 ) {
   return generate(pullers, units)
     .map(calc.putComponentsIntoIntervals(components))
