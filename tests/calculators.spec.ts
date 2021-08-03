@@ -1,7 +1,7 @@
-import { Component, ComponentOutput, ComputeNode, Interval } from '../module'
+import { ComponentOutput, ComputeNode, Interval } from '../module'
 import * as mod from '../src/calculator'
 
-const makeComponent = (myComponent: Object): ComponentOutput => {
+const makeComponent = (myComponent: Record<string, unknown>): ComponentOutput => {
   return {
     name: 'foo',
     requestToCpu: 0,
@@ -18,7 +18,7 @@ const makeComponent = (myComponent: Object): ComponentOutput => {
   }
 }
 
-const makeNode = (myNode: Object): ComputeNode => {
+const makeNode = (myNode: Record<string, unknown>): ComputeNode => {
   return {
     maxPods: 0,
     availableCpu: 0,
@@ -31,7 +31,7 @@ const makeNode = (myNode: Object): ComputeNode => {
   }
 }
 
-const makeInterval = (myInterval: Object): Interval => {
+const makeInterval = (myInterval: Record<string, unknown>): Interval => {
   return { time: 1, requests: 1, ...myInterval }
 }
 
@@ -209,6 +209,7 @@ describe('calculator', () => {
       testing: 'ok',
       expected: false,
     },
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
   ])('calculateIfOverSubscribed, $testing', ({ components, nodes, readyNodes, testing, expected }) =>
     expect(mod.calculateIfOverSubscribed(components.map(makeComponent), makeNode(nodes), readyNodes)).toBe(expected),
   )

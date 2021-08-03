@@ -1,6 +1,6 @@
 import { generate } from './src/generate_request_data'
 import * as calc from './src/calculator'
-import { Component, ComputeNode, Puller } from './module'
+import { Component, ComputeNode, Puller, Interval } from './module'
 
 export function calculate(
   pullers: Puller[],
@@ -8,7 +8,7 @@ export function calculate(
   components: Component[],
   node: ComputeNode,
   failedRequestPenalty: number,
-) {
+): Interval[] {
   return generate(pullers, units)
     .map(calc.putComponentsIntoIntervals(components))
     .map(calc.putNodesIntoIntervals(node))
