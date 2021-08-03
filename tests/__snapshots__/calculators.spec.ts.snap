@@ -1,0 +1,257 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`calculator calculateDesiredResourceForInterval 1`] = `
+Object {
+  "components": Array [
+    Object {
+      "desiredCpu": 1500,
+      "desiredMemory": 3000,
+      "desiredReplica": 15,
+      "limitCpu": 100,
+      "limitMemory": 200,
+      "maxReplica": 200,
+      "minReplica": 2,
+      "needCpuReplica": 10,
+      "scalingThresholdCpu": 70,
+    },
+  ],
+  "desiredCpu": 1500,
+  "desiredMemory": 3000,
+  "desiredPods": 15,
+}
+`;
+
+exports[`calculator calculateNodesDesiredForInterval 1`] = `
+Object {
+  "desiredCpu": 10000,
+  "desiredMemory": 200000,
+  "desiredNodes": 1000,
+  "desiredNodesByCpu": 100,
+  "desiredNodesByMemory": 1000,
+  "desiredNodesByPods": 10,
+  "desiredPods": 1000,
+  "nodes": Object {
+    "availableCpu": 100,
+    "availableMemory": 200,
+    "maxPods": 100,
+  },
+}
+`;
+
+exports[`calculator calculateNodesNeededForInterval 1`] = `
+Object {
+  "needCpu": 10000,
+  "needMemory": 200000,
+  "needNodesByCpu": 100,
+  "needNodesByMemory": 1000,
+  "needNodesByPods": 10,
+  "needPods": 1000,
+  "nodes": Object {
+    "availableCpu": 100,
+    "availableMemory": 200,
+    "maxPods": 100,
+  },
+}
+`;
+
+exports[`calculator calculatePendingPods 1`] = `
+Array [
+  Object {
+    "components": Array [
+      Object {
+        "desiredReplica": 3,
+        "minReplica": 1,
+        "pendingReplica": 1,
+        "scalingIntervals": 2,
+      },
+    ],
+  },
+  Object {
+    "components": Array [
+      Object {
+        "desiredReplica": 3,
+        "minReplica": 1,
+        "pendingReplica": 1,
+        "scalingIntervals": 2,
+      },
+    ],
+  },
+  Object {
+    "components": Array [
+      Object {
+        "desiredReplica": 3,
+        "minReplica": 1,
+        "pendingReplica": 3,
+        "scalingIntervals": 2,
+      },
+    ],
+  },
+  Object {
+    "components": Array [
+      Object {
+        "desiredReplica": 3,
+        "minReplica": 1,
+        "pendingReplica": 3,
+        "scalingIntervals": 2,
+      },
+    ],
+  },
+  Object {
+    "components": Array [
+      Object {
+        "desiredReplica": 3,
+        "minReplica": 1,
+        "pendingReplica": 3,
+        "scalingIntervals": 2,
+      },
+    ],
+  },
+  Object {
+    "components": Array [
+      Object {
+        "desiredReplica": 10,
+        "minReplica": 1,
+        "pendingReplica": 3,
+        "scalingIntervals": 2,
+      },
+    ],
+  },
+  Object {
+    "components": Array [
+      Object {
+        "desiredReplica": 4,
+        "minReplica": 1,
+        "pendingReplica": 10,
+        "scalingIntervals": 2,
+      },
+    ],
+  },
+  Object {
+    "components": Array [
+      Object {
+        "desiredReplica": 3,
+        "minReplica": 1,
+        "pendingReplica": 4,
+        "scalingIntervals": 2,
+      },
+    ],
+  },
+  Object {
+    "components": Array [
+      Object {
+        "desiredReplica": 3,
+        "minReplica": 1,
+        "pendingReplica": 3,
+        "scalingIntervals": 2,
+      },
+    ],
+  },
+]
+`;
+
+exports[`calculator calculateReadyNodes 1`] = `
+Array [
+  Object {
+    "desiredNodes": 10,
+    "nodes": Object {
+      "scalingIntervals": 3,
+    },
+    "readyNodes": undefined,
+  },
+  Object {
+    "desiredNodes": 10,
+    "nodes": Object {
+      "scalingIntervals": 3,
+    },
+    "readyNodes": undefined,
+  },
+  Object {
+    "desiredNodes": 10,
+    "nodes": Object {
+      "scalingIntervals": 3,
+    },
+    "readyNodes": undefined,
+  },
+  Object {
+    "desiredNodes": 5,
+    "nodes": Object {
+      "scalingIntervals": 3,
+    },
+    "readyNodes": undefined,
+  },
+  Object {
+    "desiredNodes": 10,
+    "nodes": Object {
+      "scalingIntervals": 3,
+    },
+    "readyNodes": 10,
+  },
+  Object {
+    "desiredNodes": 10,
+    "nodes": Object {
+      "scalingIntervals": 3,
+    },
+    "readyNodes": 5,
+  },
+  Object {
+    "desiredNodes": 10,
+    "nodes": Object {
+      "scalingIntervals": 3,
+    },
+    "readyNodes": 10,
+  },
+]
+`;
+
+exports[`calculator calculateReplicasNeededForInterval 1`] = `
+Object {
+  "components": Array [
+    Object {
+      "baselineCpu": 4,
+      "baselineMemory": 500,
+      "limitCpu": 40,
+      "limitMemory": 200,
+      "minReplica": 1,
+      "needCpuForRequests": 30,
+      "needCpuReplica": 1,
+      "needMemoryForRequests": 20,
+      "needMemoryReplica": -0,
+      "needReplica": 1,
+    },
+  ],
+  "needPods": 1,
+  "requests": 100,
+}
+`;
+
+exports[`calculator calculateResourceNeededForInterval 1`] = `
+Object {
+  "components": Array [
+    Object {
+      "baselineCpu": 2,
+      "baselineMemory": 10,
+      "needCpu": 204,
+      "needCpuForRequests": 200,
+      "needMemory": 35,
+      "needMemoryForRequests": 15,
+      "needReplica": 2,
+    },
+  ],
+  "needCpu": 204,
+  "needMemory": 35,
+}
+`;
+
+exports[`calculator calculateResourceNeededForRequestsInterval 1`] = `
+Object {
+  "components": Array [
+    Object {
+      "needCpuForRequests": 300,
+      "needMemoryForRequests": 400,
+      "requestToCpu": 3,
+      "requestToMemory": 4,
+    },
+  ],
+  "requests": 100,
+}
+`;
