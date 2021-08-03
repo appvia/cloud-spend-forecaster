@@ -2,7 +2,7 @@
   "name": "cloud-spend-forecaster",
   "version": "1.0.0",
   "description": "",
-  "main": "index.ts",
+  "main": "dist/index.js",
   "scripts": {
     "demo": "ts-node demo.ts",
     "lint": "eslint .",
