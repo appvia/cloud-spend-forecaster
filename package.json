@@ -1,0 +1,21 @@
+{
+  "name": "cloud-spend-forecaster",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "ts-node index.ts",
+    "test": "jest --ci"
+  },
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/jest": "^26.0.24",
+    "jest": "^27.0.6",
+    "ts-jest": "^27.0.4"
+  },
+  "dependencies": {
+    "lodash": "^4.17.21",
+    "ts-node": "^10.1.0"
+  }
+}
