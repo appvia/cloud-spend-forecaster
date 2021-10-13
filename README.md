@@ -11,7 +11,7 @@ This app allows you to handle complex modelling and forecast various scenarios a
 
 Everything is defined in terms of the amount of resource required to service a single request, in addition to a baseline for that component.
 
-It also allows you to describe a penality for failed requests like what you might be used to with an SLA
+It also allows you to describe a penality for failed requests like what you might be used to with an SLA.
 
 See the [demo.ts](./demo.ts) for a complete example of a simple three tier (frontend, app, database) application.
 
@@ -37,7 +37,7 @@ const pullers = [
 
 ### Units
 
-The units of time to calculate in, minutes probably makes sense for most use cases
+The units of time to calculate in, minutes probably makes sense for most use cases.
 
 ```js
 const units = 60000
